@@ -1,0 +1,35 @@
+{
+  "name": "only-fails-api",
+  "version": "1.0.0",
+  "description": "MongoDB Express Node TypeScript REST API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GOULASHSUP/only-fails-api.git"
+  },
+  "author": "sj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GOULASHSUP/only-fails-api/issues"
+  },
+  "homepage": "https://github.com/GOULASHSUP/only-fails-api#readme",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv-flow": "^4.1.0",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.1",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/joi": "^17.2.2",
+    "@types/node": "^22.13.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
