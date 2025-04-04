@@ -15,7 +15,5 @@ export interface FailedProduct extends Document {
         text: string;
         date: Date;
     }[];
-    createdAt: Date; 
-    updatedAt: Date;
     _createdBy: User['id'];          
 }

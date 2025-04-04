@@ -18,8 +18,6 @@ const failedProductSchema = new Schema<FailedProduct>({
             date: { type: Date, default: Date.now }
         }
     ],
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
     _createdBy:{ type:String, ref: 'User', required: true }
 });
 
