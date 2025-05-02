@@ -13,7 +13,7 @@ const failedProductSchema = new Schema<FailedProduct>({
     downvotes: { type: Number, default: 0 },
     comments: [
         {
-            userId: { type: String, required: true },
+            userId: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the User model
             text: { type: String, required: true },
             date: { type: Date, default: Date.now }
         }

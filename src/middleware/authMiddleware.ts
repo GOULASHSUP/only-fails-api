@@ -10,17 +10,17 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
-    const token = req.header('Authorization')?.replace('Bearer ', '');  // Remove "Bearer " prefix
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
         res.status(401).json({ error: 'Access denied. No token provided.' });
-        return;  // Early return after sending response
+        return;
     }
 
     try {
         const decoded = jwt.verify(token, TOKEN_SECRET) as AuthenticatedRequest['user'];
         req.user = decoded;
-        next(); // Pass control to the next middleware/handler
+        next();
     } catch {
         res.status(401).json({ error: 'Invalid token.' });
     }
@@ -29,7 +29,7 @@ export function verifyToken(req: AuthenticatedRequest, res: Response, next: Next
 export function isAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
     if (req.user?.role !== 'admin') {
         res.status(403).json({ error: 'Access denied. Admins only.' });
-        return;  // Early return after sending response
+        return;
     }
-    next(); // Pass control to the next middleware/handler
+    next();
 }
