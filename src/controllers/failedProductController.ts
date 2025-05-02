@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { FailedProductModel } from '../models/failedProductModel';
 import { connect, disconnect } from '../repository/database';
 
@@ -111,3 +111,45 @@ export async function deleteFailedProductById(req: Request, res: Response) {
         await disconnect();
     }
 }
+/**
+ * Vote on a failed product (upvote or downvote)
+ * @param req
+ * @param res
+ */
+export const voteOnFailedProduct: RequestHandler = async (req, res) => {
+    const productId = req.params.id;
+    const { voteType } = req.body;
+
+    if (!['upvote', 'downvote'].includes(voteType)) {
+        res.status(400).send("Invalid voteType: must be 'upvote' or 'downvote'.");
+        return;
+    }
+
+    try {
+        await connect();
+
+        const failedProduct = await FailedProductModel.findById(productId);
+        if (!failedProduct) {
+            res.status(404).send("Failed product not found.");
+            return;
+        }
+
+        failedProduct.upvotes = failedProduct.upvotes || 0;
+        failedProduct.downvotes = failedProduct.downvotes || 0;
+
+        if (voteType === 'upvote') {
+            failedProduct.upvotes += 1;
+        } else {
+            failedProduct.downvotes += 1;
+        }
+
+        const updatedProduct = await failedProduct.save();
+        res.status(200).json(updatedProduct);
+
+    } catch (err) {
+        console.error("Error voting on failed product:", err);
+        res.status(500).send("Error voting on failed product.");
+    } finally {
+        await disconnect();
+    }
+};
