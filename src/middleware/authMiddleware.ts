@@ -10,7 +10,7 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const token = req.header('auth-token');
 
     if (!token) {
         res.status(401).json({ error: 'Access denied. No token provided.' });

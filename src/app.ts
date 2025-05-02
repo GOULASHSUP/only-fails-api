@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import dotenvFLow from 'dotenv-flow';
 import { testConnection } from './repository/database';
-
+import { setupDocs } from './util/documentation';
 import routes from './routes';
 
 dotenvFLow.config();
@@ -15,6 +15,8 @@ export function startServer() {
 
     // Bind routes to the application
     app.use('/api', routes);
+
+    setupDocs(app);
 
     // Test the connection to the database
     testConnection();
