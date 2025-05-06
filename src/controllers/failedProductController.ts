@@ -11,11 +11,20 @@ export async function createFailedProduct(req: Request, res: Response): Promise<
     const data = req.body;
     try {
         await connect();
-        const failedProduct = new FailedProductModel(data);
+
+        console.log('[createFailedProduct] Incoming data:', data);
+        console.log('[createFailedProduct] Authenticated user:', (req as any).user);
+
+        const failedProduct = new FailedProductModel({
+            ...data,
+            _createdBy: (req as any).user?.id,
+        });
+
         const result = await failedProduct.save();
         res.status(201).send(result);
     }
     catch (err) {
+        console.error('[createFailedProduct] Error creating failed product:', err);
         res.status(500).send("Error creating failed product. Error: " + err);
     }
     finally {
