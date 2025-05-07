@@ -60,10 +60,17 @@ export async function getFailedProductById(req: Request, res: Response) {
     try {
         await connect();
         const id = req.params.id;
-        const result = await FailedProductModel.find({ _id: id });
-        res.status(200).send(result);
+        const result = await FailedProductModel.findById(id);
+
+        if (!result) {
+            res.status(404).send("Failed product not found.");
+            return;
+        }
+
+        res.status(200).json(result);
     }
     catch (err) {
+        console.error("[getFailedProductById] Error:", err);
         res.status(500).send("Error retrieving failed product: " + err);
     }
     finally {
