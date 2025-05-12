@@ -2,7 +2,6 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { Application } from 'express';
 
-// Setup Swagger documentation
 export function setupDocs(app: Application) {
     const swaggerDefinition = {
         openapi: '3.0.0',
@@ -26,12 +25,12 @@ export function setupDocs(app: Application) {
                 },
             },
             schemas: {
-                // Product schema (FailedProduct in your case)
                 FailedProduct: {
                     type: 'object',
                     properties: {
                         name: { type: 'string' },
                         description: { type: 'string' },
+                        designedBy: { type: 'string' },
                         imageURL: { type: 'string' },
                         category: { type: 'string' },
                         startDate: { type: 'string', format: 'date' },
