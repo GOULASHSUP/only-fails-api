@@ -1,10 +1,10 @@
 
 
-# 📉 OnlyFails API
+# OnlyFails API
 
 OnlyFails is a humorous full-stack application that showcases failed products. This API backend powers all functionality related to user authentication, product submission by the admin, commenting (Not yet implemented on the frontend) and voting on the products by the logged in users.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Node.js** + **Express.js**
 - **TypeScript**
@@ -13,7 +13,7 @@ OnlyFails is a humorous full-stack application that showcases failed products. T
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -40,7 +40,7 @@ JWT_SECRET=your_super_secret_key
 
 ---
 
-## 🔧 Available Scripts
+## Available Scripts
 
 | Command            | Description                       |
 |--------------------|-----------------------------------|
@@ -50,7 +50,7 @@ JWT_SECRET=your_super_secret_key
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -67,7 +67,7 @@ src/
 
 ---
 
-## 🧪 API Endpoints
+## API Endpoints
 
 ### Auth Routes
 
@@ -83,7 +83,7 @@ src/
 
 ---
 
-## 🔐 Security
+## Security
 
 - **Password Hashing** with bcrypt
 - **JWT-based Authentication**
@@ -91,6 +91,6 @@ src/
 
 ---
 
-## 📬 Contact
+## Contact
 
 For issues or contributions, please open an issue or pull request.
