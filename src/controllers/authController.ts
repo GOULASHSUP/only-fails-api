@@ -13,6 +13,7 @@ import { TOKEN_SECRET } from '../config';
  */
 export const loginAdmin = async (req: Request, res: Response): Promise<void> => {
     try {
+        // Validate input using the Joi schema
         const { error } = validateAdminLogin(req.body);
         if (error) {
             res.status(400).json({ error: error.details[0].message });
@@ -21,6 +22,7 @@ export const loginAdmin = async (req: Request, res: Response): Promise<void> => 
 
         await connect();
 
+        // Look up admin by email and role
         const admin = await UserModel.findOne({
             email: req.body.email.toLowerCase(),
             role: 'admin'
@@ -35,12 +37,14 @@ export const loginAdmin = async (req: Request, res: Response): Promise<void> => 
             return;
         }
 
+        // Compare entered password with hashed password
         const isValid = await bcrypt.compare(req.body.password, admin.password);
         if (!isValid) {
             res.status(400).json({ error: 'Invalid admin credentials.' });
             return;
         }
-
+        
+        // Create JWT token with admin ID and role
         const token = jwt.sign(
             { id: admin._id, role: admin.role },
             TOKEN_SECRET,
@@ -57,6 +61,7 @@ export const loginAdmin = async (req: Request, res: Response): Promise<void> => 
         console.error("Login error:", err);
         res.status(500).json({ error: 'Error logging in admin.' });
     } finally {
+        // Always disconnect from the database
         await disconnect();
     }
 };

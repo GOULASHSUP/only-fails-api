@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { TOKEN_SECRET } from '../config';
 
+// Extended Express Request interface to include user data decoded from JWT
 export interface AuthenticatedRequest extends Request {
     user?: {
         id: string;
@@ -9,7 +10,13 @@ export interface AuthenticatedRequest extends Request {
     };
 }
 
+/**
+ * Middleware to verify JWT token in 'auth-token' header
+ * - Adds decoded user info to request object
+ * - Returns 401 if token is missing or invalid
+ */
 export function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+    // Get token from request header
     const token = req.header('auth-token');
 
     if (!token) {
@@ -18,6 +25,7 @@ export function verifyToken(req: AuthenticatedRequest, res: Response, next: Next
     }
 
     try {
+        // Attempt to verify the token
         const decoded = jwt.verify(token, TOKEN_SECRET) as AuthenticatedRequest['user'];
         req.user = decoded;
         next();
@@ -26,6 +34,10 @@ export function verifyToken(req: AuthenticatedRequest, res: Response, next: Next
     }
 }
 
+/**
+ * Middleware to check if authenticated user has admin role
+ * - Returns 403 if user is not an admin
+ */
 export function isAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
     if (req.user?.role !== 'admin') {
         res.status(403).json({ error: 'Access denied. Admins only.' });

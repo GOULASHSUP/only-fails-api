@@ -20,6 +20,7 @@ export async function createFailedProduct(req: Request, res: Response): Promise<
             _createdBy: (req as any).user?.id,
         });
 
+        // Save product to database
         const result = await failedProduct.save();
         res.status(201).send(result);
     }
@@ -112,6 +113,7 @@ export async function deleteFailedProductById(req: Request, res: Response) {
     const id = req.params.id;
     try {
         await connect();
+        // Look up product by ID
         const result = await FailedProductModel.findByIdAndDelete(id);
         if (!result) {
             res.status(404).send("Cannot delete failed product with id: " + id);
@@ -153,12 +155,14 @@ export const voteOnFailedProduct: RequestHandler = async (req, res) => {
         failedProduct.upvotes = failedProduct.upvotes || 0;
         failedProduct.downvotes = failedProduct.downvotes || 0;
 
+        // Apply the vote
         if (voteType === 'upvote') {
             failedProduct.upvotes += 1;
         } else {
             failedProduct.downvotes += 1;
         }
 
+        // Save and return updated product
         const updatedProduct = await failedProduct.save();
         res.status(200).json(updatedProduct);
 

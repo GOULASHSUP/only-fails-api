@@ -1,3 +1,6 @@
+// IMPORTANT: This file currently is unused, since the commenting functionality is not done on the frontend.
+// It is kept here for future reference and to be used when the frontend is ready.
+
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
 import { Request, Response } from 'express';
 import { FailedProductModel } from '../models/failedProductModel';

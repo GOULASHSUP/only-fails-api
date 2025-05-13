@@ -9,6 +9,8 @@ import { TOKEN_SECRET } from '../config';
 
 /**
  * Register a regular user
+ * - Validates input using Joi
+ * - Checks if email is already registered
  */
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -49,6 +51,10 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
 /**
  * Login a regular user
+ * - Validates input using Joi
+ * - Checks if user exists and is not banned
+ * - Compares entered password with hashed password
+ * - Generates JWT token with user ID and role
  */
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -99,6 +105,10 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
 /**
  * Joi validation for registration
+ * - Validates username, email, and password
+ * - Username must be between 3 and 30 characters
+ * - Email must be a valid email format
+ * - Password must be between 8 and 100 characters
  */
 function validateUserRegistration(data: any) {
     return Joi.object({
@@ -110,6 +120,9 @@ function validateUserRegistration(data: any) {
 
 /**
  * Joi validation for login
+ * - Validates email and password
+ * - Email must be a valid email format
+ * - Password must be between 8 and 100 characters
  */
 function validateUserLogin(data: any) {
     return Joi.object({
