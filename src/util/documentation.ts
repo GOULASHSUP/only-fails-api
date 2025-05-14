@@ -15,6 +15,10 @@ export function setupDocs(app: Application) {
                 url: 'http://localhost:4000/api/',
                 description: 'Local development server',
             },
+                        {
+                url: 'https://only-fails-api.onrender.com/api/',
+                description: 'Live Server',
+            },
             ],
             components: {
             securitySchemes: {
