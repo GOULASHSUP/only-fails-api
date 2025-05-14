@@ -10,20 +10,22 @@ dotenvFLow.config();
 // Create the Express Application
 const app: Application = express();
 
-// Setup the application to use CORS
-function setupCors() {
-    app.use(cors({
-        origin: "*",
-        methods: 'GET, POST, PUT, DELETE',
-        allowedHeaders: ['auth-token', 'Origin', 'X-Requested-with', 'Content-Type', 'Accept'],
-        credentials: true
-    }))
-}
-
 export function startServer() {
 
-    // Setup CORS to allow cross-origin requests
-    setupCors();
+    app.use(
+        cors({
+            origin: "*",
+            methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+            allowedHeaders: [
+            "auth-token",
+            "Origin",
+            "X-Requested-With",
+            "Content-Type",
+            "Accept",
+            ],
+        })
+    );
+    app.options("*", cors());
 
     app.use(express.json());
 
