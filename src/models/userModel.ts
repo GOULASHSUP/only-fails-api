@@ -10,8 +10,7 @@ const userSchema = new Schema<User>({
     votes: [
         {
             productId: { type: Schema.Types.ObjectId, ref: 'FailedProduct', required: true },
-            voteType: { type: String, enum: ['up', 'down'], required: true }
-        }
+        voteType: { type: String, enum: ['upvote', 'downvote'], required: true }        }
     ],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     registerDate: { type: Date, required: true, default: Date.now }

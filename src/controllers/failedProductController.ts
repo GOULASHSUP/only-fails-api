@@ -1,6 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
 import { FailedProductModel } from '../models/failedProductModel';
 import { connect, disconnect } from '../repository/database';
+import { UserModel } from '../models/userModel';
 
 /**
  * Create a new failed product
@@ -135,6 +136,7 @@ export async function deleteFailedProductById(req: Request, res: Response) {
  * @param res
  */
 export const voteOnFailedProduct: RequestHandler = async (req, res) => {
+    const userId = (req as any).user?.id;
     const productId = req.params.id;
     const { voteType } = req.body;
 
@@ -145,30 +147,32 @@ export const voteOnFailedProduct: RequestHandler = async (req, res) => {
 
     try {
         await connect();
-
+        const user = await UserModel.findById(userId);
         const failedProduct = await FailedProductModel.findById(productId);
-        if (!failedProduct) {
-            res.status(404).send("Failed product not found.");
+
+        if (!user || !failedProduct) {
+            res.status(404).send("User or product not found.");
             return;
         }
 
-        failedProduct.upvotes = failedProduct.upvotes || 0;
-        failedProduct.downvotes = failedProduct.downvotes || 0;
-
-        // Apply the vote
-        if (voteType === 'upvote') {
-            failedProduct.upvotes += 1;
-        } else {
-            failedProduct.downvotes += 1;
+        const alreadyVoted = user.votes.find((v: { productId: any }) => v.productId.toString() === productId);
+        if (alreadyVoted) {
+            res.status(403).send("You have already voted on this product.");
+            return;
         }
 
-        // Save and return updated product
-        const updatedProduct = await failedProduct.save();
-        res.status(200).json(updatedProduct);
+        if (voteType === 'upvote') failedProduct.upvotes++;
+        else failedProduct.downvotes++;
 
+        user.votes.push({ productId, voteType });
+
+        await failedProduct.save();
+        await user.save();
+
+        res.status(200).json(failedProduct);
     } catch (err) {
-        console.error("Error voting on failed product:", err);
-        res.status(500).send("Error voting on failed product.");
+        console.error("Voting error:", err);
+        res.status(500).send("Internal server error.");
     } finally {
         await disconnect();
     }
