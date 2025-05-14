@@ -72,7 +72,25 @@ router.post('/auth/login', loginUser);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/FailedProduct'
+ *             type: object
+ *             required: [name, category, startDate, failureDate, description, designedBy, imageURL]
+ *             properties:
+ *               name:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *                 format: date
+ *               failureDate:
+ *                 type: string
+ *                 format: date
+ *               description:
+ *                 type: string
+ *               designedBy:
+ *                 type: string
+ *               imageURL:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Failed product created successfully
@@ -129,7 +147,25 @@ router.get('/failed-products/:id', getFailedProductById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/FailedProduct'
+ *             type: object
+ *             required: [name, category, startDate, failureDate, description, designedBy, imageURL]
+ *             properties:
+ *               name:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *                 format: date
+ *               failureDate:
+ *                 type: string
+ *                 format: date
+ *               description:
+ *                 type: string
+ *               designedBy:
+ *                 type: string
+ *               imageURL:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Failed product updated successfully
